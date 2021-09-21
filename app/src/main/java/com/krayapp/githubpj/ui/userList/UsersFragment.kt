@@ -1,4 +1,4 @@
-package com.krayapp.githubpj.ui
+package com.krayapp.githubpj.ui.userList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.krayapp.githubpj.App
 import com.krayapp.githubpj.databinding.FragmentUsersBinding
 import com.krayapp.githubpj.model.gituserinfo.GitLocalRepo
-import com.krayapp.githubpj.presenter.MainPresenter
-import com.krayapp.githubpj.presenter.UsersPresenter
+import com.krayapp.githubpj.presenter.userList.UsersPresenter
+import com.krayapp.githubpj.ui.AndroidScreens
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UsersFragment : MvpAppCompatFragment(), UsersListView{
+class UsersFragment : MvpAppCompatFragment(), UsersListView {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter by moxyPresenter { UsersPresenter(GitLocalRepo(), App.instance.router) }
+    private val presenter by moxyPresenter { UsersPresenter(GitLocalRepo(), App.instance.router, AndroidScreens()) }
     private var adapter : UserListAdapter? = null
 
     private var vb: FragmentUsersBinding? = null

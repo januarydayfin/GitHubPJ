@@ -1,4 +1,4 @@
-package com.krayapp.githubpj.presenter
+package com.krayapp.githubpj.presenter.userList
 
 interface IItemView {
     var pos: Int
