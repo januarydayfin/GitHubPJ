@@ -5,6 +5,7 @@ import com.krayapp.githubpj.model.gituserinfo.GitLocalRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
 import com.krayapp.githubpj.ui.IScreens
 import com.krayapp.githubpj.ui.userList.UsersListView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
@@ -12,6 +13,8 @@ class UsersPresenter(
     private val router: Router,
     private val screens: IScreens
 ) : MvpPresenter<UsersListView>() {
+
+    private var disposables = CompositeDisposable()
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -40,8 +43,16 @@ class UsersPresenter(
 
     fun loadData() {
         val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
+        disposables.add(
+            users
+                .subscribe({ usersList -> usersListPresenter.users.addAll(usersList) },
+                    { println(Throwable("Error in Data Stream")) })
+        )
         viewState.updateList()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
+    }
 }

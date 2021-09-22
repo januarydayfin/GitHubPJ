@@ -41,5 +41,4 @@ class UsersFragment : MvpAppCompatFragment(), UsersListView {
     override fun updateList() {
         adapter?.notifyDataSetChanged()
     }
-
 }
