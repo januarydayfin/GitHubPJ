@@ -1,5 +1,7 @@
 package com.krayapp.githubpj.model.gituserinfo
 
+import io.reactivex.rxjava3.core.Single
+
 class GitLocalRepo {
     private val repositories = listOf(
         GithubUser("login1"),
@@ -9,8 +11,6 @@ class GitLocalRepo {
         GithubUser("login5")
     )
 
-    fun getUsers() : List<GithubUser> {
-        return repositories
-    }
-
+    fun getUsers(): Single<List<GithubUser>> =
+        Single.just(repositories)
 }
