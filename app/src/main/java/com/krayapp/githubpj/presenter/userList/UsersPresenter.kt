@@ -16,29 +16,10 @@ class UsersPresenter(
 
     private var disposables = CompositeDisposable()
 
-    class UsersListPresenter : IUserListPresenter {
-        val users = mutableListOf<GithubUser>()
-        override var itemClickListener: ((UserItemView) -> Unit)? = null
-
-        override fun bindView(view: UserItemView) {
-            val user = users[view.pos]
-            view.setLogin(user.login)
-        }
-
-        override fun getCount(): Int {
-            return users.size
-        }
-    }
-
-    val usersListPresenter = UsersListPresenter()
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-        usersListPresenter.itemClickListener = {
-            router.navigateTo(screens.openedUsers(usersListPresenter.users[it.pos]))
-        }
     }
 
     fun loadData() {
