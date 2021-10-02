@@ -34,14 +34,17 @@ class UsersPresenter(
         viewState.init()
         loadData()
         usersListPresenter.itemClickListener = {
-            router.navigateTo(screens.openedUsers(usersListPresenter.users[it.pos]))
+            println("Old Click")
         }
     }
 
     fun loadData() {
         val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        viewState.showUsers(users)
+    }
+
+    fun displayUser(user: GithubUser){
+        router.navigateTo(screens.openedUsers(user))
     }
 
 }
