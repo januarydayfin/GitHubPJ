@@ -10,9 +10,12 @@ import com.krayapp.githubpj.App
 import com.krayapp.githubpj.databinding.FragmentUsersBinding
 import com.krayapp.githubpj.model.gituserinfo.GitLocalRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.presenter.userList.UsersPresenter
+import com.krayapp.githubpj.model.imageloader.ImageLoaderImpl
+import com.krayapp.githubpj.model.retrofit2.ApiHolder
+import com.krayapp.githubpj.model.retrofit2.GitUsersRepoImpl
+import com.krayapp.githubpj.presenter.UsersPresenter
 import com.krayapp.githubpj.ui.AndroidScreens
-import com.krayapp.githubpj.ui.adapter.UsersAdapter
+import com.krayapp.githubpj.ui.userList.adapter.UsersAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -21,9 +24,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersListView, UsersAdapter.Delega
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter by moxyPresenter { UsersPresenter(GitLocalRepo(), App.instance.router, AndroidScreens()) }
+    private val presenter by moxyPresenter { UsersPresenter(GitUsersRepoImpl(ApiHolder.api), App.instance.router, AndroidScreens()) }
     private val viewBinding:FragmentUsersBinding by viewBinding()
-    private var adapter = UsersAdapter(this)
+    private var adapter = UsersAdapter(this, ImageLoaderImpl())
 
     private var vb: FragmentUsersBinding? = null
 
@@ -34,7 +37,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersListView, UsersAdapter.Delega
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewBinding.rvUsers.adapter = adapter
     }
     override fun onDestroyView() {
