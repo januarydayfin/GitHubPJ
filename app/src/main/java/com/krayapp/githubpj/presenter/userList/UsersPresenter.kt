@@ -45,10 +45,13 @@ class UsersPresenter(
         val users = usersRepo.getUsers()
         disposables.add(
             users
-                .subscribe({ usersList -> usersListPresenter.users.addAll(usersList) },
+                .subscribe({ usersList -> viewState.showUsers(usersList) },
                     { println(Throwable("Error in Data Stream")) })
         )
-        viewState.updateList()
+    }
+
+    fun displayUser(user: GithubUser){
+        router.navigateTo(screens.openedUsers(user))
     }
 
     override fun onDestroy() {
