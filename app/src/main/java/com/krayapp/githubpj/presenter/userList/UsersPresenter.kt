@@ -29,6 +29,11 @@ class UsersPresenter(
                 .subscribe({ usersList -> viewState.showUsers(usersList) },
                     { println(Throwable("Error in Data Stream")) })
         )
+        viewState.showUsers(users)
+    }
+
+    fun displayUser(user: GithubUser){
+        router.navigateTo(screens.openedUsers(user))
     }
 
     fun displayUser(user: GithubUser){

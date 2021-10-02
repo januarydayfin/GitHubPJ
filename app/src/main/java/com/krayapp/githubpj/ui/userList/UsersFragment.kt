@@ -51,7 +51,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersListView, UsersAdapter.Delega
         adapter.submitList(users)
     }
 
-
     override fun userPicked(user: GithubUser) {
         presenter.displayUser(user)
     }
