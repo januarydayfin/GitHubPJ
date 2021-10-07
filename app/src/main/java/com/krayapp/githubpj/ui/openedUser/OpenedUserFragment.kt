@@ -10,8 +10,9 @@ import com.krayapp.githubpj.App
 import com.krayapp.githubpj.databinding.OpenedUserCardBinding
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
+import com.krayapp.githubpj.model.gituserinfo.UserRepositoryFactory
 import com.krayapp.githubpj.model.retrofit2.ApiHolder
-import com.krayapp.githubpj.model.retrofit2.GitUsersRepoImpl
+import com.krayapp.githubpj.model.retrofit2.RemoteGitUsersRepoImpl
 import com.krayapp.githubpj.presenter.OpenedUserPresenter
 import com.krayapp.githubpj.ui.AndroidScreens
 import com.krayapp.githubpj.ui.aboutRepo.repoAdapter.RepoAdapter
@@ -38,7 +39,7 @@ class OpenedUserFragment : MvpAppCompatFragment(), OpenedUserView, RepoAdapter.R
     private val presenter by moxyPresenter {
         OpenedUserPresenter(
             arguments?.getParcelable(ARG_KEY)!!,
-            GitUsersRepoImpl(ApiHolder.api),
+            UserRepositoryFactory.create(),
             AndroidScreens(),
             App.instance.router
         )

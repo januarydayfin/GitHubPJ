@@ -11,5 +11,5 @@ import com.krayapp.githubpj.ui.userList.UsersFragment
 class AndroidScreens : IScreens {
     override fun users() = FragmentScreen { UsersFragment.newInstance() }
     override fun openedUsers(user: GithubUser) = FragmentScreen {OpenedUserFragment.newInstance(user)}
-    override fun aboutUserRepo(userLogin:String, repo: GitUserRepos) = FragmentScreen { AboutRepoFrag.newInstance(userLogin, repo)}
+    override fun aboutUserRepo(repo: GitUserRepos) = FragmentScreen { AboutRepoFrag.newInstance(repo)}
 }

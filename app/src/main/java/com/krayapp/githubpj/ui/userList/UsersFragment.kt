@@ -8,11 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.krayapp.githubpj.App
 import com.krayapp.githubpj.databinding.FragmentUsersBinding
-import com.krayapp.githubpj.model.gituserinfo.GitLocalRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
+import com.krayapp.githubpj.model.gituserinfo.UserRepositoryFactory
 import com.krayapp.githubpj.model.imageloader.ImageLoaderImpl
 import com.krayapp.githubpj.model.retrofit2.ApiHolder
-import com.krayapp.githubpj.model.retrofit2.GitUsersRepoImpl
 import com.krayapp.githubpj.presenter.UsersPresenter
 import com.krayapp.githubpj.ui.AndroidScreens
 import com.krayapp.githubpj.ui.userList.adapter.UsersAdapter
@@ -24,7 +23,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersListView, UsersAdapter.Delega
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter by moxyPresenter { UsersPresenter(GitUsersRepoImpl(ApiHolder.api), App.instance.router, AndroidScreens()) }
+    private val presenter by moxyPresenter { UsersPresenter(UserRepositoryFactory.create(), App.instance.router, AndroidScreens()) }
     private val viewBinding:FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter(this, ImageLoaderImpl())
 

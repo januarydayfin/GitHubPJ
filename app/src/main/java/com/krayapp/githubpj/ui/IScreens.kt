@@ -7,6 +7,6 @@ import com.krayapp.githubpj.model.gituserinfo.GithubUser
 interface IScreens {
     fun users(): Screen
     fun openedUsers(user: GithubUser): Screen
-    fun aboutUserRepo(userLogin:String, repo: GitUserRepos): Screen
+    fun aboutUserRepo(repo: GitUserRepos): Screen
 
 }

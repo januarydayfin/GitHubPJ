@@ -15,7 +15,7 @@ class UserViewHolder(view: View, private val imageLoader:IImageLoader<ImageView>
 
     fun bind(user:GithubUser, delegate:UsersAdapter.Delegate?){
         with(viewBinding){
-            imageLoader.loadInto(user.avatarUrl!!,listAvatar)
+            imageLoader.loadInto(user.avatarUrl,listAvatar)
             tvLogin.text = user.login
             root.setOnClickListener { delegate?.userPicked(user) }
         }

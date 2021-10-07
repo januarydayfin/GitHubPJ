@@ -8,5 +8,4 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface AboutRepoView:MvpView {
     fun initName(repo:GitUserRepos)
-    fun initCounter(counter:Int?)
 }
