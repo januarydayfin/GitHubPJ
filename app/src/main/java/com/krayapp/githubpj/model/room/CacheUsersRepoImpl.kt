@@ -2,15 +2,14 @@ package com.krayapp.githubpj.model.room
 
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.schedulersPack.SchedulersListFactory
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Single
+import javax.inject.Inject
 
 
-class CacheUsersRepoImpl(
+class CacheUsersRepoImpl
+    @Inject constructor(
     private val roomDB: RoomDB
 ) : ICacheGitUserRepo {
-
-    private val schedulers = SchedulersListFactory().create()
 
     override fun retain(users: List<GithubUser>): Single<List<GithubUser>> {
         return roomDB

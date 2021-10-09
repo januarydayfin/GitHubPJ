@@ -1,17 +1,15 @@
 package com.krayapp.githubpj.model.gituserinfo
 
-import com.krayapp.githubpj.model.retrofit2.IRemoteGithub
+import com.krayapp.githubpj.model.retrofit2.IRemoteGitUserRepo
 import com.krayapp.githubpj.model.room.ICacheGitUserRepo
-import com.krayapp.githubpj.room_metho.INetworkStatus
-import com.krayapp.githubpj.schedulersPack.SchedulerList
-import com.krayapp.githubpj.schedulersPack.SchedulersListFactory
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
+import com.krayapp.githubpj.network_status.INetworkStatus
+import io.reactivex.Observable
+import javax.inject.Inject
 
 
-class IGitHubUserRepoImpl(
-    private val cloud: IRemoteGithub,
+class GitHubUserRepoImpl
+    @Inject constructor(
+    private val cloud: IRemoteGitUserRepo,
     private val cache: ICacheGitUserRepo,
     private val networkStatus: INetworkStatus
 ) : GitHubUserRepo {
@@ -20,7 +18,7 @@ class IGitHubUserRepoImpl(
         if (networkStatus.isOnline()) {
             cloud
                 .getUsers()
-                .flatMap { cache.retain(it) }
+                .flatMap(cache::retain)
                 .toObservable()
         } else {
             cache.getUsers().toObservable()
@@ -30,7 +28,7 @@ class IGitHubUserRepoImpl(
         if (networkStatus.isOnline()) {
             cloud
                 .getRepoList(login)
-                .flatMap {cache.retainRepoList(login, it)}
+                //.flatMap {cache.retainRepoList(login, it)}
                 .toObservable()
         }else{
              cache

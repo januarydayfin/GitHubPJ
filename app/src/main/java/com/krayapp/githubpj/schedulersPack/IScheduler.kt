@@ -1,8 +1,6 @@
 package com.krayapp.githubpj.schedulersPack
 
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.Scheduler
 
 
 interface IScheduler {

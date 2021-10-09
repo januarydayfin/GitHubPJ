@@ -3,7 +3,8 @@ package com.krayapp.githubpj.model.retrofit2
 import com.krayapp.githubpj.model.gituserinfo.UserRepoDAO
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Single
+
 import retrofit2.http.GET
 import retrofit2.http.Path
 

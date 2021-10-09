@@ -1,12 +1,14 @@
-package com.krayapp.githubpj.room_metho
+package com.krayapp.githubpj.network_status
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class AndroidNetworkStatus(context: Context) : INetworkStatus {
+class AndroidNetworkStatus
+    @Inject constructor
+    (context: Context) : INetworkStatus {
     private var statusSubject: Boolean = false
 
     init {

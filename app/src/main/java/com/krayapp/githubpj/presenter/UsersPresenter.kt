@@ -3,21 +3,21 @@ package com.krayapp.githubpj.presenter
 import com.github.terrakok.cicerone.Router
 import com.krayapp.githubpj.model.gituserinfo.GitHubUserRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.schedulersPack.SchedulersListFactory
-import com.krayapp.githubpj.ui.IScreens
+import com.krayapp.githubpj.schedulersPack.IScheduler
+import com.krayapp.githubpj.ui.openedUser.OpenedUserScreen
 import com.krayapp.githubpj.ui.userList.UsersListView
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+
 import moxy.MvpPresenter
 
 class UsersPresenter(
     private val usersRepo: GitHubUserRepo,
     private val router: Router,
-    private val screens: IScreens
+    private val schedulers:IScheduler
 ) : MvpPresenter<UsersListView>() {
 
     private var disposables = CompositeDisposable()
-    private val schedulers = SchedulersListFactory().create()
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
@@ -37,7 +37,7 @@ class UsersPresenter(
     }
 
     fun displayUser(user: GithubUser) {
-        router.navigateTo(screens.openedUsers(user))
+        router.navigateTo(OpenedUserScreen(user))
     }
 
     override fun onDestroy() {

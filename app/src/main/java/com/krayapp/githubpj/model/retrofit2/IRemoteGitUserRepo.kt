@@ -1,10 +1,9 @@
 package com.krayapp.githubpj.model.retrofit2
 
 import com.krayapp.githubpj.model.gituserinfo.UserRepoDAO
+import io.reactivex.Single
 
-import io.reactivex.rxjava3.core.Single
 
-
-interface IRemoteGithub : IGithubUsersRepo{
+interface IRemoteGitUserRepo : IGithubUsersRepo{
     fun loadRepoForks(login: String, repoName:String) : Single<UserRepoDAO>
 }

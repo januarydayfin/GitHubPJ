@@ -4,23 +4,22 @@ import com.github.terrakok.cicerone.Router
 import com.krayapp.githubpj.model.gituserinfo.GitHubUserRepo
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.model.retrofit2.IGithubUsersRepo
-import com.krayapp.githubpj.schedulersPack.SchedulersListFactory
-import com.krayapp.githubpj.ui.IScreens
+import com.krayapp.githubpj.schedulersPack.IScheduler
+import com.krayapp.githubpj.ui.aboutRepo.AboutRepoScreen
 import com.krayapp.githubpj.ui.openedUser.OpenedUserView
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+
 import moxy.MvpPresenter
 
 class OpenedUserPresenter(
     private val user: GithubUser,
     private val repo: GitHubUserRepo,
-    private val screens: IScreens,
-    private val router: Router
+    private val router: Router,
+    private val schedulers :IScheduler
 ) : MvpPresenter<OpenedUserView>() {
 
     private var disposables = CompositeDisposable()
-    private var schedulers = SchedulersListFactory().create()
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init(user)
@@ -45,6 +44,6 @@ class OpenedUserPresenter(
     }
 
     fun openRepo(repo: GitUserRepos) {
-        router.navigateTo(screens.aboutUserRepo(repo))
+        router.navigateTo(AboutRepoScreen(repo))
     }
 }

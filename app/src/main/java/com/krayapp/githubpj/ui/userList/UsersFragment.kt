@@ -6,24 +6,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.krayapp.githubpj.App
+import com.github.terrakok.cicerone.Router
+import com.krayapp.githubpj.R.layout.fragment_users
 import com.krayapp.githubpj.databinding.FragmentUsersBinding
+import com.krayapp.githubpj.model.gituserinfo.GitHubUserRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.model.gituserinfo.UserRepositoryFactory
 import com.krayapp.githubpj.model.imageloader.ImageLoaderImpl
-import com.krayapp.githubpj.model.retrofit2.ApiHolder
 import com.krayapp.githubpj.presenter.UsersPresenter
-import com.krayapp.githubpj.ui.AndroidScreens
+import com.krayapp.githubpj.presenter.abs.AbsFragment
+import com.krayapp.githubpj.schedulersPack.IScheduler
 import com.krayapp.githubpj.ui.userList.adapter.UsersAdapter
-import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class UsersFragment : MvpAppCompatFragment(), UsersListView, UsersAdapter.Delegate {
+class UsersFragment : AbsFragment(fragment_users), UsersListView, UsersAdapter.Delegate {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter by moxyPresenter { UsersPresenter(UserRepositoryFactory.create(), App.instance.router, AndroidScreens()) }
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var schedulers: IScheduler
+
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepo
+
+    private val presenter by moxyPresenter { UsersPresenter(gitHubUserRepository,router,schedulers) }
     private val viewBinding:FragmentUsersBinding by viewBinding()
     private var adapter = UsersAdapter(this, ImageLoaderImpl())
 

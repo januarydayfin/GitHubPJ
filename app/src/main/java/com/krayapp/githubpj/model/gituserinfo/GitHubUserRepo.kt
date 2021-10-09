@@ -1,6 +1,6 @@
 package com.krayapp.githubpj.model.gituserinfo
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 
 
 interface GitHubUserRepo {
