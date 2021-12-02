@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitHubPJ</string>
+    <string name="forks_is">Forks of</string>
+    <string name="user_repositories">User Repositories</string>
 </resources>
