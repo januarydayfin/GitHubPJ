@@ -24,10 +24,10 @@ class OpenedUserFragment : AbsFragment(opened_user_card), OpenedUserView, RepoAd
 
     companion object {
         private const val ARG_KEY = "ARG_KEY"
-        fun newInstance(gitUser: GithubUser): OpenedUserFragment {
+        fun newInstance(gitUser: String): OpenedUserFragment {
             val newFrag = OpenedUserFragment()
             val bundle = Bundle()
-            bundle.putParcelable(ARG_KEY, gitUser)
+            bundle.putString(ARG_KEY, gitUser)
             newFrag.arguments = bundle
             return newFrag
         }
@@ -48,7 +48,7 @@ class OpenedUserFragment : AbsFragment(opened_user_card), OpenedUserView, RepoAd
 
     private val presenter by moxyPresenter {
         OpenedUserPresenter(
-            arguments?.getParcelable(ARG_KEY)!!,
+            arguments?.getString(ARG_KEY)!!,
             gitHubUserRepository,
             router,
             schedulers

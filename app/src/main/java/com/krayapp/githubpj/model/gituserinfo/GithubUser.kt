@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity(tableName = "github_user")
 data class GithubUser(
     @Expose
@@ -20,4 +19,4 @@ data class GithubUser(
     @Expose val avatarUrl: String,
     @ColumnInfo (name = "reposUrl")
     var reposUrl: String?
-):Parcelable
+)
