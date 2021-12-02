@@ -9,6 +9,7 @@ import com.krayapp.githubpj.ui.aboutRepo.AboutRepoScreen
 import com.krayapp.githubpj.ui.openedUser.OpenedUserView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 import moxy.MvpPresenter
 
@@ -20,6 +21,8 @@ class OpenedUserPresenter(
 ) : MvpPresenter<OpenedUserView>() {
 
     private var disposables = CompositeDisposable()
+
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         loadUser(userLogin)
