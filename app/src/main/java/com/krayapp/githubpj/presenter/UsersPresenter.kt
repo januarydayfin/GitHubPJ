@@ -1,23 +1,23 @@
 package com.krayapp.githubpj.presenter
 
 import com.github.terrakok.cicerone.Router
-import com.krayapp.githubpj.model.gituserinfo.GitLocalRepo
+import com.krayapp.githubpj.model.gituserinfo.GitHubUserRepo
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.ui.IScreens
+import com.krayapp.githubpj.schedulersPack.IScheduler
+import com.krayapp.githubpj.ui.openedUser.OpenedUserScreen
 import com.krayapp.githubpj.ui.userList.UsersListView
-import com.krayapp.gitproject.data.retrofit2.IGithubUsersRepo
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+
 import moxy.MvpPresenter
 
 class UsersPresenter(
-    private val usersRepo: IGithubUsersRepo,
+    private val usersRepo: GitHubUserRepo,
     private val router: Router,
-    private val screens: IScreens
+    private val schedulers:IScheduler
 ) : MvpPresenter<UsersListView>() {
 
     private var disposables = CompositeDisposable()
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
@@ -25,12 +25,14 @@ class UsersPresenter(
     }
 
     private fun loadData() {
-        val users = usersRepo.getUsers()
         disposables.add(
-            users
+            usersRepo
+                .getUsers()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ usersList -> viewState.showUsers(usersList) },
-                    { println(Throwable("Error in Data Stream")) })
+                .subscribeOn(schedulers.io())
+                .subscribe(
+                    viewState::showUsers
+                , { println(Throwable("Error in Data Stream")) })
         )
         viewState.showUsers(users)
     }
@@ -40,7 +42,7 @@ class UsersPresenter(
     }
 
     fun displayUser(user: GithubUser) {
-        router.navigateTo(screens.openedUsers(user))
+        router.navigateTo(OpenedUserScreen(user))
     }
 
     override fun onDestroy() {

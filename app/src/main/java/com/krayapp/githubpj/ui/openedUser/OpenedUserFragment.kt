@@ -6,19 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
-import com.krayapp.githubpj.App
+import com.github.terrakok.cicerone.Router
 import com.krayapp.githubpj.databinding.OpenedUserCardBinding
+import com.krayapp.githubpj.model.gituserinfo.GitHubUserRepo
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
 import com.krayapp.githubpj.model.gituserinfo.GithubUser
-import com.krayapp.githubpj.model.retrofit2.ApiHolder
-import com.krayapp.githubpj.model.retrofit2.GitUsersRepoImpl
 import com.krayapp.githubpj.presenter.OpenedUserPresenter
-import com.krayapp.githubpj.ui.AndroidScreens
+import com.krayapp.githubpj.presenter.abs.AbsFragment
 import com.krayapp.githubpj.ui.aboutRepo.repoAdapter.RepoAdapter
-import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
+import com.krayapp.githubpj.R.layout.*
+import com.krayapp.githubpj.schedulersPack.IScheduler
 
-class OpenedUserFragment : MvpAppCompatFragment(), OpenedUserView, RepoAdapter.RepoDelegate {
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+
+class OpenedUserFragment : AbsFragment(opened_user_card), OpenedUserView, RepoAdapter.RepoDelegate {
 
     companion object {
         private const val ARG_KEY = "ARG_KEY"
@@ -35,12 +37,21 @@ class OpenedUserFragment : MvpAppCompatFragment(), OpenedUserView, RepoAdapter.R
     private var repoAdapter = RepoAdapter(this)
     private var binding: OpenedUserCardBinding? = null
 
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var schedulers: IScheduler
+
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepo
+
     private val presenter by moxyPresenter {
         OpenedUserPresenter(
             arguments?.getParcelable(ARG_KEY)!!,
-            GitUsersRepoImpl(ApiHolder.api),
-            AndroidScreens(),
-            App.instance.router
+            gitHubUserRepository,
+            router,
+            schedulers
         )
     }
 
@@ -63,6 +74,6 @@ class OpenedUserFragment : MvpAppCompatFragment(), OpenedUserView, RepoAdapter.R
     }
 
     override fun onRepoSelected(userRepos: GitUserRepos) {
-       presenter.openRepo(userRepos)
+        presenter.openRepo(userRepos)
     }
 }

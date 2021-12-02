@@ -5,21 +5,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.krayapp.githubpj.databinding.AboutRepoFragBinding
 import com.krayapp.githubpj.model.gituserinfo.GitUserRepos
-import com.krayapp.githubpj.model.retrofit2.ApiHolder
-import com.krayapp.githubpj.model.retrofit2.GitUsersRepoImpl
 import com.krayapp.githubpj.presenter.AboutRepoPresenter
+import com.krayapp.githubpj.schedulersPack.IScheduler
+import com.krayapp.githubpj.R.layout.about_repo_frag
+import com.krayapp.githubpj.presenter.abs.AbsFragment
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class AboutRepoFrag : MvpAppCompatFragment(), AboutRepoView {
+class AboutRepoFrag : AbsFragment(about_repo_frag), AboutRepoView {
     companion object {
-        const val REPO_KEY = "REPO_USER_KEY2"
-        const val REPO_USER_KEY = "REPO_USER_KEY"
-        fun newInstance(userLogin: String, repo: GitUserRepos): AboutRepoFrag {
+        const val REPO_KEY = "REPO_KEY"
+        fun newInstance(repo: GitUserRepos): AboutRepoFrag {
             val newFrag = AboutRepoFrag()
             val bundle = Bundle()
             bundle.putParcelable(REPO_KEY, repo)
-            bundle.putString(REPO_USER_KEY,userLogin)
             newFrag.arguments = bundle
             return newFrag
         }
@@ -27,11 +27,14 @@ class AboutRepoFrag : MvpAppCompatFragment(), AboutRepoView {
 
     private var binding: AboutRepoFragBinding? = null
 
+    @Inject
+    lateinit var schedulers: IScheduler
+
     private val presenter by moxyPresenter {
-        AboutRepoPresenter(arguments?.getString(REPO_USER_KEY),
+        AboutRepoPresenter(
             arguments?.getParcelable(
                 REPO_KEY
-            ), GitUsersRepoImpl(ApiHolder.api)
+            ), schedulers
         )
     }
 
@@ -41,11 +44,7 @@ class AboutRepoFrag : MvpAppCompatFragment(), AboutRepoView {
 
     override fun initName(repo: GitUserRepos) {
         binding?.repoName?.text = repo.name
+        binding?.forkCounterView?.text = repo.forksCount.toString()
     }
-
-    override fun initCounter(counter: Int?) {
-        binding?.forkCounterView?.text = counter.toString()
-    }
-
 
 }
