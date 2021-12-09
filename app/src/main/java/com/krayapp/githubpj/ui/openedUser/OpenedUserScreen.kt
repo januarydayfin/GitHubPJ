@@ -7,6 +7,5 @@ import com.krayapp.githubpj.model.gituserinfo.GithubUser
 
 class OpenedUserScreen(private val user: GithubUser):FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment =
-        OpenedUserFragment.newInstance(user)
-
+        OpenedUserFragment.newInstance(user.login)
 }

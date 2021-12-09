@@ -28,7 +28,6 @@ class GitHubUserRepoImpl
         if (networkStatus.isOnline()) {
             cloud
                 .getRepoList(login)
-                //.flatMap {cache.retainRepoList(login, it)}
                 .toObservable()
         }else{
              cache
@@ -36,6 +35,8 @@ class GitHubUserRepoImpl
                  .toObservable()
         }
 
-
+    override fun fetchUser(login: String): Observable<GithubUser> =
+            cloud.fetchUser(login)
+                .toObservable()
 
 }

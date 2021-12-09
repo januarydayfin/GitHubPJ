@@ -9,26 +9,42 @@ import com.krayapp.githubpj.ui.aboutRepo.AboutRepoScreen
 import com.krayapp.githubpj.ui.openedUser.OpenedUserView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 import moxy.MvpPresenter
 
 class OpenedUserPresenter(
-    private val user: GithubUser,
+    private val userLogin: String,
     private val repo: GitHubUserRepo,
     private val router: Router,
     private val schedulers :IScheduler
 ) : MvpPresenter<OpenedUserView>() {
 
     private var disposables = CompositeDisposable()
+
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init(user)
-        loadRepos(user)
+        loadUser(userLogin)
+        loadRepos(userLogin)
     }
 
-    private fun loadRepos(user: GithubUser) {
+    private fun loadUser(user:String){
         disposables.add(
-            repo.getRepoList(user.login)
+            repo.fetchUser(user)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulers.io())
+                .subscribe(
+                    {user -> viewState.init(user)},
+                    { println("Error ${it.message}") }
+                )
+        )
+
+    }
+
+    private fun loadRepos(user: String) {
+        disposables.add(
+            repo.getRepoList(user)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(schedulers.io())
                 .subscribe(

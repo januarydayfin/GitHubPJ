@@ -25,7 +25,6 @@ class GitHubApp : DaggerApplication() {
             .withContext(applicationContext)
             .apply {
                 val cicerone = Cicerone.create()
-
                 withNavigatorHolder(cicerone.getNavigatorHolder())
                 withRouter(cicerone.router)
                 withSchedulers(SchedulerList())

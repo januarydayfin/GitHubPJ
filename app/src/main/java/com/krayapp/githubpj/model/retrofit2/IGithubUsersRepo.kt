@@ -8,4 +8,5 @@ import io.reactivex.Single
 interface IGithubUsersRepo {
     fun getUsers(): Single<List<GithubUser>>
     fun getRepoList(login:String): Single<List<GitUserRepos>>
+    fun fetchUser(login: String):Single<GithubUser>
 }

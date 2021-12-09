@@ -41,4 +41,10 @@ class CacheUsersRepoImpl
             .findForUser(login)
     }
 
+    override fun fetchUser(login: String): Single<GithubUser> {
+        return roomDB
+            .userDao
+            .findByLogin(login)
+    }
+
 }
